@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rwanda Connectivity Map — MTN & Airtel Tower Coverage</title>
+  <meta name="description" content="An interactive map of Rwanda showing real MTN and Airtel cell tower locations, built from open OpenCelliD data, with a distance-based connectivity likelihood layer." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root { --bg:#0b1220; --panel:#0f1b33; --text:#e8eefc; --muted:#a9b5d6; --accent:#4ea1ff; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; background: var(--bg); color: var(--text); }
+    #app { display:flex; height: 100vh; width:100%; }
+    #map { flex:1; }
+    .panel {
+      width: 340px; max-width: 92vw;
+      background: var(--panel);
+      border-left: 1px solid rgba(255,255,255,0.08);
+      padding: 14px;
+      overflow:auto;
+    }
+    .panel h1 { margin: 0 0 10px; font-size: 16px; color: var(--text); }
+    .sub { color: var(--muted); font-size: 12px; margin-bottom: 14px; line-height: 1.35; }
+
+    .section { margin: 14px 0; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .section h2 { margin:0 0 8px; font-size: 13px; color: var(--text); }
+    label { display:flex; align-items:center; gap:10px; margin: 8px 0; font-size: 13px; color: var(--muted); }
+    input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+
+    button {
+      background: rgba(78,161,255,0.15);
+      border: 1px solid rgba(78,161,255,0.35);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button:hover { background: rgba(78,161,255,0.25); }
+    .small { font-size: 12px; color: var(--muted); line-height: 1.35; }
+    #status { margin-top: 10px; font-size: 12px; color: var(--muted); white-space: pre-wrap; }
+    .badge { display:inline-block; padding:2px 8px; border-radius:999px; background: rgba(78,161,255,0.18); color: var(--text); font-size: 12px; margin-left: 6px; }
+    @media (max-width: 720px) {
+      #app { flex-direction: column; }
+      .panel { width:100%; border-left:none; border-top: 1px solid rgba(255,255,255,0.08); }
+      #map { height: 55vh; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="map"></div>
+
+    <aside class="panel">
+      <h1>
+        Rwanda Connectivity Map
+        <span class="badge">MVP</span>
+      </h1>
+      <div class="sub">
+        Personal map starter. OSM provides the basemap.
+        Operator layers (MTN/Airtel/Tigo) are placeholders until you add legal/reusable source data.
+      </div>
+
+      <div class="section">
+        <h2>Layers</h2>
+
+        <label><input type="checkbox" id="layerProxy" checked /> Connectivity likelihood (proxy)</label>
+        <label><input type="checkbox" id="layerMTN" /> MTN coverage (add source)</label>
+        <label><input type="checkbox" id="layerAirtel" /> Airtel coverage (add source)</label>
+        <label><input type="checkbox" id="layerTigo" /> Tigo coverage (add source)</label>
+      </div>
+
+      <div class="section">
+        <h2>Click info</h2>
+        <div class="small">Tap/click the map to view coordinates and proxy score (placeholder).</div>
+        <div id="status">Ready.</div>
+      </div>
+
+      <div class="section">
+        <h2>Next step</h2>
+        <div class="small">
+          If you later get operator coverage data as GeoJSON or an image with bounds,
+          we’ll wire it into these toggles.
+        </div>
+        <button id="btnFit">Fit to Rwanda</button>
+      </div>
+    </aside>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
